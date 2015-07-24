@@ -7,9 +7,11 @@ EXPOSE 25565
 VOLUME ["/data"]
 WORKDIR /data
 
-RUN wget -qO /minecraft_server.1.8.7.jar https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar
+RUN wget -qO /minecraft_server.jar https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar
 
-ENV JVM_OPTS -Xmx1024M -Xms1024M
+ENV JVM_OPTS -Xmx1000M -Xms1000M
 ENV TYPE=VANILLA VERSION=LATEST FORGEVERSION=RECOMMENDED LEVEL=world PVP=true DIFFICULTY=normal
 
-ENTRYPOINT echo eula=true > /data/eula.txt && java -jar /minecraft_server.1.8.7.jar
+RUN echo eula=true > /data/eula.txt
+
+ENTRYPOINT java -jar /minecraft_server.jar
