@@ -4,14 +4,20 @@ MAINTAINER Takenori Nakagawa <ww24gm+oss@gmail.com>
 
 EXPOSE 25565
 
+ENV FORGE_VERSION=1.8-11.14.3.1450
+
+RUN mkdir /install
+WORKDIR /install
+
+RUN wget -q http://files.minecraftforge.net/maven/net/minecraftforge/forge/$FORGE_VERSION/forge-$FORGE_VERSION-installer.jar
+
+RUN echo "70c903bc016cf972634be1245adb76d86ee9823b  forge-$FORGE_VERSION-installer.jar" | sha1sum -c
+
+RUN java -jar forge-$FORGE_VERSION-installer.jar nogui --installServer
+
 VOLUME ["/data"]
 WORKDIR /data
 
-RUN wget -qO /minecraft_server.jar https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar
+RUN echo eula=true > eula.txt
 
-ENV JVM_OPTS -Xms1024M -Xmx2048M
-ENV TYPE=VANILLA VERSION=LATEST FORGEVERSION=RECOMMENDED LEVEL=world PVP=true DIFFICULTY=normal
-
-RUN echo eula=true > /data/eula.txt
-
-ENTRYPOINT java -jar /minecraft_server.jar
+ENTRYPOINT java -Xms1024M -Xmx2048M -jar /install/forge-$FORGE_VERSION-universal.jar

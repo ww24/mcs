@@ -1,7 +1,7 @@
 MCS
 ===
 
-Minecraft Server
+Minecraft Server with Minecraft Forge
 
 How to build
 ------------
